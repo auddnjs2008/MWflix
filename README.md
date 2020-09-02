@@ -2,10 +2,10 @@
 
 ## Screens
 
-- [ ] Home
-- [ ] TV Shows
-- [ ] Search
-- [ ] Detail
+- [x] Home
+- [x] TV Shows
+- [x] Search
+- [x] Detail
 
 ## API Verbs
 
@@ -17,3 +17,12 @@
 - [x] TV Show Detail
 - [x] Movie Detail
 - [x] Search movies and Search Tv
+
+## Code Challenges
+
+- [x] IMDB Link
+- [x] Tabs inside of Movie/show Details(Youtue videos, Production Company & Countries)
+
+- [ ] Collections Link
+- [ ] /Collections route
+- [ ] On Tv Show, show seasons and creators

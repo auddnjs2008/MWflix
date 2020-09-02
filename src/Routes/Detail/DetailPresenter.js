@@ -1,7 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
 import Loader from "../../Components/Loader";
+import Message from "../../Components/Message";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -68,11 +71,64 @@ const Overview = styled.p`
   width: 50%;
 `;
 
+const Site = styled.a`
+  width: 15px;
+  height: 15px;
+  background-color: yellow;
+  color: black;
+  padding: 1px;
+  font-weight: 700;
+`;
+
+const Url = styled.li`
+  margin-bottom: 20px;
+`;
+
+const Img = styled.img`
+  width: auto;
+  height: auto;
+  max-width: 80px;
+  max-height: 80px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+`;
+
+const Company = styled.div`
+  margin-top: 10px;
+`;
+
+const GridWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1fr;
+`;
+const Wrapper = styled.div``;
+const Production = styled.span``;
+const SubTitle = styled.h4`
+  font-size: 18px;
+  padding: 10px 0px;
+  color: #e74c3c;
+  font-weight: 500;
+`;
 const DetailPresenter = ({ result, loading, error }) =>
   loading ? (
-    <Loader />
+    <>
+      <Helmet>
+        <title>Loading | Nomflix</title>
+      </Helmet>
+      <Loader />
+    </>
+  ) : error ? (
+    <Message color="#e74c3c" text={error} />
   ) : (
     <Container>
+      <Helmet>
+        <title>
+          {result.original_title ? result.original_title : result.original_name}{" "}
+          | Nomflix
+        </title>
+      </Helmet>
       <Backdrop
         bgImage={`https://image.tmdb.org/t/p/original${result.backdrop_path}`}
       />
@@ -98,7 +154,12 @@ const DetailPresenter = ({ result, loading, error }) =>
             </Item>
             <Divider>•</Divider>
             <Item>
-              {result.runtime ? result.runtime : result.episode_run_time[0]} min
+              {result.runtime
+                ? result.runtime
+                : result.episode_run_time
+                ? result.episode_run_time[0]
+                : "???"}{" "}
+              min
             </Item>
             <Divider>•</Divider>
             <Item>
@@ -109,8 +170,69 @@ const DetailPresenter = ({ result, loading, error }) =>
                     : `${genre.name} /`
                 )}
             </Item>
+            {result.imdb_id ? (
+              <>
+                <Divider>•</Divider>
+                <Item>
+                  <Site href={"https://www.imdb.com/title/" + result.imdb_id}>
+                    Imdb
+                  </Site>
+                </Item>
+              </>
+            ) : (
+              ""
+            )}
           </ItemContainer>
           <Overview>{result.overview}</Overview>
+          <GridWrapper>
+            <Wrapper>
+              <SubTitle>Production companies</SubTitle>
+              <Production>
+                {result.production_companies.length !== 0
+                  ? result.production_companies.map((company, index) =>
+                      company.logo_path ? (
+                        <Img
+                          src={
+                            "https://image.tmdb.org/t/p/w300" +
+                            company.logo_path
+                          }
+                        />
+                      ) : (
+                        <Company>{company.name}</Company>
+                      )
+                    )
+                  : "No information"}
+              </Production>
+            </Wrapper>
+            <Wrapper>
+              <SubTitle>Production Countries</SubTitle>
+              <Production>
+                {result.production_countries
+                  ? result.production_countries.map((country, index) =>
+                      index === result.production_countries.length - 1
+                        ? country.name
+                        : `${country.name} / `
+                    )
+                  : "No information"}
+              </Production>
+            </Wrapper>
+            <Wrapper>
+              <SubTitle>Videos</SubTitle>
+              <ul>
+                {result.videos.results.length !== 0
+                  ? result.videos.results.map((result) => (
+                      <Url>
+                        <Site
+                          href={"https://www.youtube.com/watch?v=" + result.key}
+                        >
+                          {"https://www.youtube.com/watch?v=" + result.key}
+                        </Site>
+                      </Url>
+                    ))
+                  : "No information"}
+              </ul>
+            </Wrapper>
+          </GridWrapper>
         </Data>
       </Content>
     </Container>
