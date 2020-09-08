@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Helmet from "react-helmet";
-import { Link } from "react-router-dom";
 import Loader from "../../Components/Loader";
 import Message from "../../Components/Message";
 
@@ -44,6 +43,16 @@ const Cover = styled.div`
   border-radius: 5px;
 `;
 
+const SubCover = styled.div`
+  width: 50px;
+  background-image: url(${(props) => props.bgImage});
+  background-position: center center;
+  background-size: cover;
+  height: 70px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+`;
+
 const Data = styled.div`
   width: 70%;
   margin-left: 10px;
@@ -80,6 +89,8 @@ const Site = styled.a`
   font-weight: 700;
 `;
 
+const SeriesLink = styled.a``;
+
 const Url = styled.li`
   margin-bottom: 20px;
 `;
@@ -94,6 +105,17 @@ const Img = styled.img`
   margin-top: 10px;
 `;
 
+const CollectImg = styled.img`
+  position: absolute;
+  top: 32px;
+  left: 0px;
+  width: auto;
+  height: auto;
+  max-width: 150px;
+  max-height: 150px;
+  z-index: -1;
+`;
+
 const Company = styled.div`
   margin-top: 10px;
 `;
@@ -103,7 +125,15 @@ const GridWrapper = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 1fr;
 `;
-const Wrapper = styled.div``;
+
+const SubGridWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 100px;
+`;
+const Wrapper = styled.div`
+  position: relative;
+`;
 const Production = styled.span``;
 const SubTitle = styled.h4`
   font-size: 18px;
@@ -111,7 +141,7 @@ const SubTitle = styled.h4`
   color: #e74c3c;
   font-weight: 500;
 `;
-const DetailPresenter = ({ result, loading, error }) =>
+const DetailPresenter = ({ result, loading, error, isMovie }) =>
   loading ? (
     <>
       <Helmet>
@@ -150,7 +180,9 @@ const DetailPresenter = ({ result, loading, error }) =>
             <Item>
               {result.release_date
                 ? result.release_date.substring(0, 4)
-                : result.first_air_date.substring(0, 4)}
+                : result.first_air_date
+                ? result.first_air_date.substring(0, 4)
+                : "???"}
             </Item>
             <Divider>•</Divider>
             <Item>
@@ -232,6 +264,58 @@ const DetailPresenter = ({ result, loading, error }) =>
                   : "No information"}
               </ul>
             </Wrapper>
+            {isMovie ? (
+              <Wrapper>
+                <SubTitle>Collections</SubTitle>
+                {result.belongs_to_collection ? (
+                  <>
+                    <Site
+                      href={"/#/collections/" + result.belongs_to_collection.id}
+                    >
+                      {" "}
+                      Collection link
+                    </Site>
+                    <CollectImg
+                      src={
+                        "https://image.tmdb.org/t/p/w300" +
+                        result.belongs_to_collection.poster_path
+                      }
+                    />
+                  </>
+                ) : (
+                  "No information"
+                )}
+              </Wrapper>
+            ) : (
+              <Wrapper>
+                <SubTitle>Series</SubTitle>
+                <SubGridWrapper>
+                  {result.seasons
+                    ? result.seasons.map((season, index) => (
+                        <SeriesLink
+                          href={
+                            "/#/series/" +
+                            result.id +
+                            "/season/" +
+                            season.season_number
+                          }
+                        >
+                          <SubCover
+                            bgImage={
+                              season.poster_path
+                                ? `https://image.tmdb.org/t/p/original${season.poster_path}`
+                                : require("../../assets/noPosterSmall.png")
+                            }
+                          >
+                            {" "}
+                          </SubCover>
+                          Series{index + 1}
+                        </SeriesLink>
+                      ))
+                    : "No information"}
+                </SubGridWrapper>
+              </Wrapper>
+            )}
           </GridWrapper>
         </Data>
       </Content>

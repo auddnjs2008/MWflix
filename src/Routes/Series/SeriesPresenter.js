@@ -8,13 +8,13 @@ import Message from "../../Components/Message";
 const Container = styled.div`
   height: calc(100vh - 50px);
   width: 100%;
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   grid-auto-rows: 300px;
   padding: 50px;
 `;
-
 const Wrapper = styled.div`
   width: 100%;
   height: 70%;
@@ -34,12 +34,11 @@ const Title = styled.span`
 `;
 const Site = styled.a``;
 
-const CollectPresenter = ({ result, loading, error }) =>
+const SeriesPresenter = ({ result, loading, error }) =>
   loading ? (
     <>
-      {" "}
       <Helmet>
-        <title> Loading | Nomflix</title>
+        <title>Loading | Nomflix</title>
       </Helmet>
       <Loader />
     </>
@@ -47,28 +46,19 @@ const CollectPresenter = ({ result, loading, error }) =>
     <Message color="#e74c3c" text={error} />
   ) : (
     <Container>
-      {result.parts.map((part, index) => (
-        <Wrapper key={index}>
-          <>
-            <Site href={`/#/movie/${part.id}`}>
-              <Cover
-                bgImage={
-                  part.poster_path
-                    ? `https://image.tmdb.org/t/p/original${part.poster_path}`
-                    : require("../../assets/noPosterSmall.png")
-                }
-              />
-              <Title>{part.title}</Title>
-            </Site>
-          </>
+      {result.episodes.map((episode) => (
+        <Wrapper>
+          <Cover
+            bgImage={
+              episode.still_path
+                ? `https://image.tmdb.org/t/p/original${episode.still_path}`
+                : require("../../assets/noPosterSmall.png")
+            }
+          />
+          <Title>{episode.name}</Title>
         </Wrapper>
       ))}
     </Container>
   );
 
-CollectPresenter.propTypes = {
-  result: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string,
-};
-export default CollectPresenter;
+export default SeriesPresenter;

@@ -8,6 +8,24 @@ const api = axios.create({
   },
 });
 
+export const series = {
+  seriesDetail: (id, seasonId) =>
+    api.get(`tv/${id}/season/${seasonId}`, {
+      params: {
+        append_to_response: "episodes",
+      },
+    }),
+};
+
+export const collectons = {
+  collectDetail: (id) =>
+    api.get(`collection/${id}`, {
+      params: {
+        append_to_response: "parts",
+      },
+    }),
+};
+
 export const moviesApi = {
   nowPlaying: () => api.get("movie/now_playing"),
   upcoming: () => api.get("movie/upcoming"),

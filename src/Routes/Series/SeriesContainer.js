@@ -1,6 +1,6 @@
 import React from "react";
-import CollectPresenter from "./CollectPresenter";
-import { moviesApi, tvApi, collectons } from "../../API";
+import SeriesPresenter from "./SeriesPresenter";
+import { series } from "../../API";
 
 export default class extends React.Component {
   constructor(props) {
@@ -15,17 +15,19 @@ export default class extends React.Component {
   async componentDidMount() {
     const {
       match: {
-        params: { id },
+        params: { id, sId },
       },
       history: { push },
     } = this.props;
+
     const parsedId = parseInt(id);
+    const parsedsId = parseInt(sId);
     if (isNaN(parsedId)) {
       return push("/");
     }
     let result = null;
     try {
-      ({ data: result } = await collectons.collectDetail(parsedId));
+      ({ data: result } = await series.seriesDetail(parsedId, parsedsId));
     } catch (error) {
       this.setState({ error: "Can't find anything." });
     } finally {
@@ -35,6 +37,6 @@ export default class extends React.Component {
 
   render() {
     const { result, error, loading } = this.state;
-    return <CollectPresenter result={result} error={error} loading={loading} />;
+    return <SeriesPresenter result={result} error={error} loading={loading} />;
   }
 }

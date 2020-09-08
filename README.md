@@ -23,6 +23,6 @@
 - [x] IMDB Link
 - [x] Tabs inside of Movie/show Details(Youtue videos, Production Company & Countries)
 
-- [ ] Collections Link
-- [ ] /Collections route
-- [ ] On Tv Show, show seasons and creators
+- [x] Collections Link
+- [x] /Collections route
+- [x] On Tv Show, show seasons
