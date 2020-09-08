@@ -6,7 +6,7 @@ import Loader from "../../Components/Loader";
 import Message from "../../Components/Message";
 
 const Container = styled.div`
-  height: calc(100vh - 50px);
+  height: calc(150vh - 50px);
   width: 100%;
   position: relative;
   padding: 50px;
@@ -123,13 +123,14 @@ const Company = styled.div`
 const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 1fr;
+  grid-auto-rows: 50vh;
 `;
 
 const SubGridWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 100px;
+  grid-template-columns: repeat(10, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 10px;
 `;
 const Wrapper = styled.div`
   position: relative;
@@ -291,27 +292,33 @@ const DetailPresenter = ({ result, loading, error, isMovie }) =>
                 <SubTitle>Series</SubTitle>
                 <SubGridWrapper>
                   {result.seasons
-                    ? result.seasons.map((season, index) => (
-                        <SeriesLink
-                          href={
-                            "/#/series/" +
-                            result.id +
-                            "/season/" +
-                            season.season_number
-                          }
-                        >
-                          <SubCover
-                            bgImage={
-                              season.poster_path
-                                ? `https://image.tmdb.org/t/p/original${season.poster_path}`
-                                : require("../../assets/noPosterSmall.png")
+                    ? result.seasons.map((season, index) =>
+                        index < 20 ? (
+                          <SeriesLink
+                            href={
+                              "/#/series/" +
+                              result.id +
+                              "/season/" +
+                              season.season_number
                             }
                           >
-                            {" "}
-                          </SubCover>
-                          Series{index + 1}
-                        </SeriesLink>
-                      ))
+                            <SubCover
+                              bgImage={
+                                season.poster_path
+                                  ? `https://image.tmdb.org/t/p/original${season.poster_path}`
+                                  : require("../../assets/noPosterSmall.png")
+                              }
+                            >
+                              {" "}
+                            </SubCover>
+                            Series{index + 1}
+                          </SeriesLink>
+                        ) : index === 21 ? (
+                          `.....Series${result.seasons.length}`
+                        ) : (
+                          ""
+                        )
+                      )
                     : "No information"}
                 </SubGridWrapper>
               </Wrapper>
