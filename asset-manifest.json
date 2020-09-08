@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/MWflix/static/js/main.4c863a53.chunk.js",
+    "main.js.map": "/MWflix/static/js/main.4c863a53.chunk.js.map",
+    "runtime-main.js": "/MWflix/static/js/runtime-main.ce3fc902.js",
+    "runtime-main.js.map": "/MWflix/static/js/runtime-main.ce3fc902.js.map",
+    "static/js/2.a44ae40d.chunk.js": "/MWflix/static/js/2.a44ae40d.chunk.js",
+    "static/js/2.a44ae40d.chunk.js.map": "/MWflix/static/js/2.a44ae40d.chunk.js.map",
+    "index.html": "/MWflix/index.html",
+    "precache-manifest.ae8cc90d169975af39e002f6c50c0ca9.js": "/MWflix/precache-manifest.ae8cc90d169975af39e002f6c50c0ca9.js",
+    "service-worker.js": "/MWflix/service-worker.js",
+    "static/js/2.a44ae40d.chunk.js.LICENSE.txt": "/MWflix/static/js/2.a44ae40d.chunk.js.LICENSE.txt",
+    "static/media/noPosterSmall.png": "/MWflix/static/media/noPosterSmall.87a0eb6a.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ce3fc902.js",
+    "static/js/2.a44ae40d.chunk.js",
+    "static/js/main.4c863a53.chunk.js"
+  ]
+}
